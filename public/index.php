@@ -59,7 +59,7 @@
          </div>
          <div>
             <h4>Atencion al cliente automatizada</h4>
-            <p>Olvidate de estar respondiendo por horas mensajes que no llegan a nada, con nuestros agentes tienes respuesta 24/7 en Whatsapp, Chatbot o correo.</p>
+            <p>Olvidate de estar respondiendo por horas mensajes que no llegan a nada, con nuestros agentes tienes respuesta 24/7 en Whatsapp, Chatbot Web o correo.</p>
         </div>
         <div>
             <h4>Agente de ventas</h4>
@@ -69,6 +69,30 @@
             <h4>Asistentes internos</h4>
             <p>El asistente es el cerebro logistico que te ayuda a tomar decisiones,genera reportes de tu negocio, y te ayuda a tomar decisiones basadas en tu negocio.</p>    
         </div>
+        </section>
+        
+        <section id="proceso_trabajo">
+            <div>
+                <h2>Nuestra forma de trabajar</h2>
+                <h4>Descubrimiento</h4>
+                <p>Agendamos una llamada o reunion para entender tu negocio, objetivos y necesidades.</p>
+            </div>
+            <div>
+                <h4>Propuesta</h4>
+                <p>Te armamos una propuesta clara con tiempos de desarrollo, precios definitivos y forma de trabajo.Sin sorpresas.</p>
+            </div>
+            <div>
+                <h4>Desarrollo comunicativo</h4>
+                <p>Para nosotros es importante mantener una buena comunicacion durante el desarrollo para agilizar el proceso.</p>
+            </div>
+            <div>
+                <h4>Entrega y capacitacion</h4>
+                <p>Te entregamos todo funcionando ademas de una capacitacion rapida para que sepas administrarlo.</p>
+            </div>
+            <div>
+                <h4>Mantenimiento</h4>
+                <p>Tu negocio va a crecer y tu plataforma tambien. Nosotros te cubrimos con el mantenimiento y mejoras cuando lo necesites.</p>
+            </div>
         </section>
 
     
