@@ -5,6 +5,7 @@
     <meta name= "viewport" content="width=device-width, initial-scale=1.0">
     <title>Bethyra</title>
     <link rel ="stylesheet" href="public/assets/css/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -19,11 +20,22 @@
 
     </header>
 
+    <!--Scripts-->
+    <script src="public/assets/js/app.js"></script>
+    <!--Typed.js-->
+    <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+    <!--AOS-->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
+
     <main>
-        <section class="Hero">
+        <section data-aos="fade-down" class="Hero">
             <div>
                 <h2>El internet y la tecnologia trabajando para ti, no al reves</h2>
-                <p>En Bethyra construimos paginas web profesionales y agentes especializados en automatizar atencion al cliente, ventas y operaciones de tu empresa.</p>
+                <p id="hero-text"></p>
                 <button id="boton_llamada">Dinos como ayudarte</button>
                 <button id="boton_VerServicios">Servicios</button>
             </div>
@@ -31,7 +43,7 @@
 
         <section class="sobre_nosotros">
             <h2>Desrrollo a la medida e inteligente</h2>
-            <p>Bethyra nace de la creciente necesidad tecnologica para los pequeños medianos y grandes empresarios que necesitan impulsar su negocio con la ayuda de las tecnologias mas nuevas en desarrollo web e inteligencia artificial, nosotros proponemos soluciones que se adaptan a tus problemas no al reves.</p>
+            <p>Bethyra nace de la creciente necesidad tecnologica de los pequeños, medianos y grandes empresarios que necesitan impulsar su negocio con la ayuda de las tecnologias mas nuevas en desarrollo web e inteligencia artificial, nosotros proponemos soluciones que se adaptan a tus problemas no al reves.</p>
         </section>
         
         <section class="servicios_desarrollo">

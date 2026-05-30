@@ -28,7 +28,7 @@ h1, h2 {
     color: #E0E1DD;
 }
 body{
-     background: linear-gradient(#0D1B2A, #112240 );
+     background: linear-gradient(#0A0F1C, #1C1F26 );
      margin: 5rem;
 
 }
@@ -36,8 +36,6 @@ body{
     display: flex;
     justify-content: center;
     list-style: none;
-    margin: 0rem;
-    padding: 1rem;
     gap: 1rem;
 }
 
@@ -48,5 +46,25 @@ body{
     border-radius: 0.2rem;
     padding: 0.4rem;
     text-decoration: none;
-   
+}
+
+.Hero p{
+    padding-right: 30rem;
+    text-align: left;
+
+}
+
+.Hero button{
+    display: flex;
+    font-family: 'Anonymus.pro', monospace;
+    font-weight: 500;
+    background: #00F6FF;
+    border: 0.1rem solid #00C2D1;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+.Hero button:hover{
+    background: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 0 .5rem #00F6FF;
 }
