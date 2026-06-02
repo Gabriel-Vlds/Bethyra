@@ -9,6 +9,47 @@
 </head>
 
 <body>
+    <div class="scene-background" aria-hidden="true">
+        <svg class="scene-layer scene-sky" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="skyGlow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#050816"/>
+                    <stop offset="100%" stop-color="#03040a"/>
+                </linearGradient>
+                <radialGradient id="cloudGlow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%" stop-color="#00fff7" stop-opacity="0.22"/>
+                    <stop offset="55%" stop-color="#ff00d0" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#050816" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <rect width="1440" height="900" fill="url(#skyGlow)"/>
+            <ellipse cx="1020" cy="210" rx="250" ry="100" fill="url(#cloudGlow)"/>
+            <ellipse cx="360" cy="170" rx="190" ry="78" fill="url(#cloudGlow)"/>
+            <ellipse cx="700" cy="300" rx="160" ry="62" fill="url(#cloudGlow)"/>
+        </svg>
+
+        <svg class="scene-layer scene-mountains scene-mountains-far" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <path d="M0 610L130 548L240 582L370 505L510 558L650 470L790 540L935 455L1080 515L1240 438L1440 520L1440 900L0 900Z" fill="#0b1120"/>
+            <path d="M0 610L130 548L240 582L370 505L510 558L650 470L790 540L935 455L1080 515L1240 438L1440 520" fill="none" stroke="#1a2a4b" stroke-width="2" opacity="0.7"/>
+        </svg>
+
+        <svg class="scene-layer scene-mountains scene-mountains-near" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <path d="M0 720L160 642L280 690L410 600L560 676L705 560L860 650L1000 560L1160 640L1300 590L1440 650L1440 900L0 900Z" fill="#070c17"/>
+            <path d="M0 720L160 642L280 690L410 600L560 676L705 560L860 650L1000 560L1160 640L1300 590L1440 650" fill="none" stroke="#233b67" stroke-width="2.5" opacity="0.9"/>
+        </svg>
+
+        <svg class="scene-layer scene-roads" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <path class="road road-a" d="M120 860C260 800, 330 760, 470 690S710 585, 910 505S1190 350, 1360 250" fill="none" stroke="#00fff7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="road road-b" d="M180 885C330 825, 430 790, 600 710S860 600, 1050 520S1280 390, 1415 315" fill="none" stroke="#ff00d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="road road-c" d="M0 800C180 735, 280 690, 460 620S760 500, 950 425S1220 295, 1440 205" fill="none" stroke="#7cfbf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+        </svg>
+
+        <div class="scene-cloud cloud-one"></div>
+        <div class="scene-cloud cloud-two"></div>
+        <div class="scene-cloud cloud-three"></div>
+        <div class="scene-spark-layer" aria-hidden="true"></div>
+    </div>
+
     <header>
         <nav class="menu_principal">
             <ul>

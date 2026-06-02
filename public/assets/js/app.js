@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const scrollToServicesButton = document.getElementById("scroll-to-services-button");
   const targetSection = document.getElementById("que-podemos-hacer-por-ti-section");
   const contentSections = Array.from(document.querySelectorAll("main .story-section, main .widgets-shell"));
+  const sparkLayer = document.querySelector(".scene-spark-layer");
 
   const titleText = "Bethyra — Desarrollo Web y Agentes IA";
   const heroCopy = "Construimos experiencias web con estética futurista, automatización real y agentes autónomos que trabajan sobre tus procesos.";
@@ -163,8 +164,56 @@ document.addEventListener("DOMContentLoaded", () => {
     contentSections.forEach((section) => sectionObserver.observe(section));
   };
 
+  const spawnSpark = () => {
+    if (!sparkLayer) {
+      return;
+    }
+
+    const spark = document.createElement("span");
+    const paletteClass = Math.random() > 0.55 ? "yellow" : "cyan";
+    const directionClasses = ["horizontal", "diag-right", "diag-left", "vertical"];
+    const speedClasses = ["slow", "medium", "fast"];
+    const directionClass = directionClasses[Math.floor(Math.random() * directionClasses.length)];
+    const speedClass = speedClasses[Math.floor(Math.random() * speedClasses.length)];
+    const gridStep = 72;
+    const gridX = Math.round((Math.random() * window.innerWidth) / gridStep) * gridStep;
+    const gridY = Math.round((Math.random() * window.innerHeight) / gridStep) * gridStep;
+    const travelX = (Math.random() > 0.5 ? 1 : -1) * (120 + Math.random() * 260);
+    const travelY = (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 180);
+
+    spark.className = `grid-spark ${paletteClass} ${directionClass} ${speedClass}`;
+    spark.style.left = `${gridX}px`;
+    spark.style.top = `${gridY}px`;
+    spark.style.setProperty("--spark-dx", `${travelX}px`);
+    spark.style.setProperty("--spark-dy", `${travelY}px`);
+
+    sparkLayer.appendChild(spark);
+
+    window.setTimeout(() => {
+      spark.remove();
+    }, 2000);
+  };
+
+  const runSparkCycle = () => {
+    if (!sparkLayer) {
+      return;
+    }
+
+    const burst = () => {
+      const sparksToCreate = 1 + Math.floor(Math.random() * 2);
+      for (let index = 0; index < sparksToCreate; index += 1) {
+        window.setTimeout(spawnSpark, index * 140);
+      }
+      const delay = 900 + Math.floor(Math.random() * 1700);
+      window.setTimeout(burst, delay);
+    };
+
+    window.setTimeout(burst, 600);
+  };
+
   runHeroSequence();
   observeContentSections();
+  runSparkCycle();
 
   if (scrollToServicesButton && targetSection) {
     scrollToServicesButton.addEventListener("click", (event) => {
