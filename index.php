@@ -38,12 +38,6 @@
             <path d="M0 720L160 642L280 690L410 600L560 676L705 560L860 650L1000 560L1160 640L1300 590L1440 650" fill="none" stroke="#233b67" stroke-width="2.5" opacity="0.9"/>
         </svg>
 
-        <svg class="scene-layer scene-roads" viewBox="0 0 1440 900" preserveAspectRatio="none">
-            <path class="road road-a" d="M120 860C260 800, 330 760, 470 690S710 585, 910 505S1190 350, 1360 250" fill="none" stroke="#00fff7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="road road-b" d="M180 885C330 825, 430 790, 600 710S860 600, 1050 520S1280 390, 1415 315" fill="none" stroke="#ff00d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="road road-c" d="M0 800C180 735, 280 690, 460 620S760 500, 950 425S1220 295, 1440 205" fill="none" stroke="#7cfbf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
-        </svg>
-
         <div class="scene-cloud cloud-one"></div>
         <div class="scene-cloud cloud-two"></div>
         <div class="scene-cloud cloud-three"></div>

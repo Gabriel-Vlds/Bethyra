@@ -171,21 +171,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const spark = document.createElement("span");
     const paletteClass = Math.random() > 0.55 ? "yellow" : "cyan";
-    const directionClasses = ["horizontal", "diag-right", "diag-left", "vertical"];
+    const directionClasses = ["horizontal-right", "horizontal-left", "diag-right", "diag-left", "vertical-down", "vertical-up"];
     const speedClasses = ["slow", "medium", "fast"];
     const directionClass = directionClasses[Math.floor(Math.random() * directionClasses.length)];
     const speedClass = speedClasses[Math.floor(Math.random() * speedClasses.length)];
     const gridStep = 72;
     const gridX = Math.round((Math.random() * window.innerWidth) / gridStep) * gridStep;
     const gridY = Math.round((Math.random() * window.innerHeight) / gridStep) * gridStep;
-    const travelX = (Math.random() > 0.5 ? 1 : -1) * (120 + Math.random() * 260);
-    const travelY = (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 180);
+    const spanX = window.innerWidth + 420;
+    const spanY = window.innerHeight + 420;
+    const streakLength = directionClass === "vertical"
+      ? `${240 + Math.floor(Math.random() * 220)}px`
+      : `${320 + Math.floor(Math.random() * 260)}px`;
+    const streakThickness = directionClass === "vertical"
+      ? `${3 + Math.floor(Math.random() * 2)}px`
+      : `${3 + Math.floor(Math.random() * 2)}px`;
+    let startX = gridX;
+    let startY = gridY;
+    let travelX = 0;
+    let travelY = 0;
+
+    if (directionClass === "horizontal-right") {
+      startX = -220;
+      startY = gridY;
+      travelX = spanX;
+      travelY = (Math.random() - 0.5) * 24;
+    } else if (directionClass === "horizontal-left") {
+      startX = window.innerWidth + 220;
+      startY = gridY;
+      travelX = -spanX;
+      travelY = (Math.random() - 0.5) * 24;
+    } else if (directionClass === "diag-right") {
+      startX = -220;
+      startY = Math.max(120, gridY - Math.floor(window.innerHeight * 0.25));
+      travelX = spanX;
+      travelY = window.innerHeight * 0.45 + (Math.random() * 120);
+    } else if (directionClass === "diag-left") {
+      startX = window.innerWidth + 220;
+      startY = Math.max(120, gridY - Math.floor(window.innerHeight * 0.25));
+      travelX = -spanX;
+      travelY = window.innerHeight * 0.45 + (Math.random() * 120);
+    } else if (directionClass === "vertical-down") {
+      startX = gridX;
+      startY = -220;
+      travelX = (Math.random() - 0.5) * 30;
+      travelY = spanY;
+    } else if (directionClass === "vertical-up") {
+      startX = gridX;
+      startY = window.innerHeight + 220;
+      travelX = (Math.random() - 0.5) * 30;
+      travelY = -spanY;
+    }
 
     spark.className = `grid-spark ${paletteClass} ${directionClass} ${speedClass}`;
-    spark.style.left = `${gridX}px`;
-    spark.style.top = `${gridY}px`;
+    spark.style.left = `${startX}px`;
+    spark.style.top = `${startY}px`;
     spark.style.setProperty("--spark-dx", `${travelX}px`);
     spark.style.setProperty("--spark-dy", `${travelY}px`);
+    spark.style.setProperty("--spark-length", streakLength);
+    spark.style.setProperty("--spark-thickness", streakThickness);
 
     sparkLayer.appendChild(spark);
 
@@ -200,11 +244,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const burst = () => {
-      const sparksToCreate = 1 + Math.floor(Math.random() * 2);
+      const sparksToCreate = 1 + Math.floor(Math.random() * 3);
       for (let index = 0; index < sparksToCreate; index += 1) {
-        window.setTimeout(spawnSpark, index * 140);
+        window.setTimeout(spawnSpark, index * 180);
       }
-      const delay = 900 + Math.floor(Math.random() * 1700);
+      const delay = 1000 + Math.floor(Math.random() * 1800);
       window.setTimeout(burst, delay);
     };
 
