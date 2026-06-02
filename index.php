@@ -3,7 +3,7 @@
 <head>
     <meta charset ="UTF-8">
     <meta name= "viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bethyra</title>
+    <title>Bethyra — Desarrollo Web y Agentes IA</title>
     <link rel ="stylesheet" href="public/assets/css/styles.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
@@ -31,84 +31,88 @@
     </script>
 
 
-    <main>
-        <section data-aos="fade-down" class="Hero">
-            <div>
-                <h2>El internet y la tecnologia trabajando para ti, no al reves</h2>
+    <main class="story">
+        <section class="hero-stage stage-full">
+            <div class="hero-copy">
+                <div class="hero-kicker">Bethyra · Web + IA</div>
+                <h2 id="hero-titulo"></h2>
                 <p id="hero-text"></p>
-                <button id="boton_llamada">Dinos como ayudarte</button>
-                <button id="boton_VerServicios">Servicios</button>
+                <div class="hero-actions hidden" id="hero-actions">
+                    <a href="#que-podemos-hacer-por-ti-section" id="scroll-to-services-button" class="scroll-down-btn" aria-label="Bajar a la siguiente sección">
+                        <span class="chevron"></span>
+                    </a>
+                </div>
             </div>
         </section>
 
-        <section class="sobre_nosotros">
-            <h2>Desrrollo a la medida e inteligente</h2>
-            <p>Bethyra nace de la creciente necesidad tecnologica de los pequeños, medianos y grandes empresarios que necesitan impulsar su negocio con la ayuda de las tecnologias mas nuevas en desarrollo web e inteligencia artificial, nosotros proponemos soluciones que se adaptan a tus problemas no al reves.</p>
-        </section>
-        
-        <section class="servicios_desarrollo">
-            <div class="servicios">
-                <h2>Desarrollo Web</h2>
-                <h4>Landing pages y sitios corporativos</h4>
-                <p>Diseño moderno,rapido,optimizado y responsivo para cualquier navegador</p>
+        <section id="que-podemos-hacer-por-ti-section" class="story-section section-left stage-full" data-aos="fade-up">
+            <div class="story-copy">
+                <span class="story-label">01 · Desarrollo Web</span>
+                <h2>Desarrollo full stack con foco en conversión</h2>
+                <p>Construimos productos web desde cero o sobre WordPress, con diseño rápido, escalable y listo para vender, automatizar y medir.</p>
             </div>
-            <div class="servicios">   
-                <h4>Tiendas en linea</h4>
-                <p>Catalogo completo,pasarelas de pago nacionales e internacionales,envios automatizados y panel de administracion para que no necesites un equipo manejando tu tienda.</p>
-            </div> 
-            <div class="servicios">  
-                <h4>APIs y sistemas a medida</h4>
-                <p>Esa plataforma especifica que sabes que va a impulsarte, nosotros la hacemos para que te sirva a ti no para que te esclavice con problemas.</p>
-            </div> 
-            <div class="servicios">  
-                <h4>Mantenimiento</h4>
-                <p>Actualizaciones,respaldos,seguridady mejoras continuas para que tu sitio no se caiga ni se quede atras.</p>
-            </div>
-        </section>
-        <section class="servicios_agentes">
-            <div>
-            <h2>Empleados IA</h2>
-            <p>Construimos agentes de IA conectados a tus procesos, no es un simple chatbot con respuestas enlatadas,lo entrenamos en base a tus necesidades y parametros.</p>
-         </div>
-         <div>
-            <h4>Atencion al cliente automatizada</h4>
-            <p>Olvidate de estar respondiendo por horas mensajes que no llegan a nada, con nuestros agentes tienes respuesta 24/7 en Whatsapp, Chatbot Web o correo.</p>
-        </div>
-        <div>
-            <h4>Agente de ventas</h4>
-            <p>El agente de ventas califica leads, agenda citas y dan seguimiento para que no pierdas tu tiempo.</p>
-        </div>
-        <div>    
-            <h4>Asistentes internos</h4>
-            <p>El asistente es el cerebro logistico que te ayuda a tomar decisiones,genera reportes de tu negocio, y te ayuda a tomar decisiones basadas en tu negocio.</p>    
-        </div>
-        </section>
-        
-        <section id="proceso_trabajo">
-            <div>
-                <h2>Nuestra forma de trabajar</h2>
-                <h4>Descubrimiento</h4>
-                <p>Agendamos una llamada o reunion para entender tu negocio, objetivos y necesidades.</p>
-            </div>
-            <div>
-                <h4>Propuesta</h4>
-                <p>Te armamos una propuesta clara con tiempos de desarrollo, precios definitivos y forma de trabajo.Sin sorpresas.</p>
-            </div>
-            <div>
-                <h4>Desarrollo comunicativo</h4>
-                <p>Para nosotros es importante mantener una buena comunicacion durante el desarrollo para agilizar el proceso.</p>
-            </div>
-            <div>
-                <h4>Entrega y capacitacion</h4>
-                <p>Te entregamos todo funcionando ademas de una capacitacion rapida para que sepas administrarlo.</p>
-            </div>
-            <div>
-                <h4>Mantenimiento</h4>
-                <p>Tu negocio va a crecer y tu plataforma tambien. Nosotros te cubrimos con el mantenimiento y mejoras cuando lo necesites.</p>
+            <div class="story-widget-slot">
+                <div class="slot-card">
+                    <span class="slot-title">Widget de apoyo visual</span>
+                    <p>Espacio reservado para una demo de checkout, analytics o panel de producto.</p>
+                </div>
             </div>
         </section>
 
-    
+        <section class="story-section section-right stage-full" data-aos="fade-up">
+            <div class="story-widget-slot">
+                <div class="slot-card">
+                    <span class="slot-title">Widget de apoyo visual</span>
+                    <p>Espacio reservado para simulación de etiquetas, inventario o automatizaciones.</p>
+                </div>
+            </div>
+            <div class="story-copy">
+                <span class="story-label">02 · WordPress</span>
+                <h2>Sitios administrables con velocidad y control</h2>
+                <p>Si ya dominas WordPress, Bethyra lo convierte en una ventaja: landings, corporativos y tiendas con estructura limpia y soporte técnico real.</p>
+            </div>
+        </section>
+
+        <section class="story-section section-left stage-full" data-aos="fade-up">
+            <div class="story-copy">
+                <span class="story-label">03 · Agentes Autónomos</span>
+                <h2>Agentes con Open Claw para tareas reales</h2>
+                <p>Diseñamos agentes que razonan, ejecutan flujos y se conectan a herramientas externas para atención, ventas, soporte interno y automatización.</p>
+            </div>
+            <div class="story-widget-slot">
+                <div class="slot-card">
+                    <span class="slot-title">Widget de apoyo visual</span>
+                    <p>Espacio para un flujo de conversación, orquestación de tareas o agente demo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="widgets-shell stage-full" data-aos="fade-up">
+            <div class="widgets-header">
+                <span class="story-label">Widgets</span>
+                <h2>Espacio reservado para demos interactivas</h2>
+                <p>Este bloque queda maquetado para insertar más adelante pasarela de pago, etiquetas de envío, analytics y otros widgets de soporte visual.</p>
+            </div>
+            <div class="widgets-grid widgets-grid-placeholder">
+                <article class="widget-card placeholder-card"><h3>Pasarela de pago</h3><p>Reservado</p></article>
+                <article class="widget-card placeholder-card"><h3>Etiquetas de envío</h3><p>Reservado</p></article>
+                <article class="widget-card placeholder-card"><h3>Analytics</h3><p>Reservado</p></article>
+            </div>
+        </section>
+
+        <section class="story-section section-right stage-full" data-aos="fade-up">
+            <div class="story-widget-slot">
+                <div class="slot-card">
+                    <span class="slot-title">Widget de apoyo visual</span>
+                    <p>Espacio reservado para progreso, pipeline y métricas del proyecto.</p>
+                </div>
+            </div>
+            <div class="story-copy">
+                <span class="story-label">04 · Proceso</span>
+                <h2>La experiencia avanza por secciones, no por bloques sueltos</h2>
+                <p>Cada panel ocupa casi toda la pantalla y se siente como una secuencia. El texto guía la lectura y el widget acompaña como evidencia visual.</p>
+            </div>
+        </section>
     </main>
 
 </body>
