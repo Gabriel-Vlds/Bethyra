@@ -1,0 +1,28 @@
+🎨 Paleta inspirada en TRON Legacy (versión profesional)
+1. Base oscura elegante
+#0A0F1C (azul marino casi negro) → Fondo principal.
+
+#1C1F26 (gris carbón) → Secciones secundarias.
+
+2. Acentos neón moderados
+#00F6FF (cian brillante) → Botones, enlaces, hover.
+
+#00C2D1 (cian suave) → Bordes o detalles sutiles.
+
+3. Contraste profesional
+#FFFFFF (blanco puro) → Tipografía principal.
+
+#B0B3B8 (gris claro) → Texto secundario.
+
+4. Color secundario opcional
+#FF6B00 (naranja neón) → Acento muy puntual (ej. íconos o CTA).
+
+Cambios pensados
+Los botones se quedan como estan en el centro, los botones de dinos como ayudarte y servicios se van a cambiar por un icono/boton 
+que te baja (Scroll down) a la siguiente seccion que diga que podemos hacer hacer por ti.
+con grid se vamos a crear dos columnas, una para un texto y otra para el widget de prueba correspondiente.
+
+Posibles Widgets:
+Pared de pago
+Analitycs
+Integracion de envios automatica
