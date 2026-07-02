@@ -132,6 +132,46 @@
                 <article class="widget-card placeholder-card"><h3>Pasarela de pago</h3><p>Reservado</p></article>
                 <article class="widget-card placeholder-card"><h3>Etiquetas de envío</h3><p>Reservado</p></article>
                 <article class="widget-card placeholder-card"><h3>Analytics</h3><p>Reservado</p></article>
+                <article class="widget-card audit-card" id="audit-widget">
+                    <h3 class="audit-title">Auditoría rápida de sitio web</h3>
+                    <p class="audit-desc">Pega cualquier URL y obtén sus métricas reales de velocidad, SEO, accesibilidad y buenas prácticas.</p>
+                    <div class="audit-form" id="audit-form">
+                        <input
+                            type="url"
+                            id="audit-url"
+                            class="audit-input"
+                            placeholder="https://ejemplo.com"
+                            autocomplete="off"
+                            spellcheck="false"
+                        />
+                        <button class="btn btn-primary audit-btn" id="audit-btn" type="button">Analizar</button>
+                    </div>
+                    <div class="audit-loading hidden" id="audit-loading" aria-live="polite">
+                        <span class="audit-pulse"></span>
+                        <span class="audit-loading-text">Analizando<span class="audit-dots"></span></span>
+                    </div>
+                    <div class="audit-error hidden" id="audit-error" role="alert"></div>
+                    <div class="audit-results hidden" id="audit-results">
+                        <div class="audit-score-grid">
+                            <div class="audit-score-item" id="score-performance">
+                                <span class="audit-score-value">—</span>
+                                <span class="audit-score-label">Performance</span>
+                            </div>
+                            <div class="audit-score-item" id="score-seo">
+                                <span class="audit-score-value">—</span>
+                                <span class="audit-score-label">SEO</span>
+                            </div>
+                            <div class="audit-score-item" id="score-accessibility">
+                                <span class="audit-score-value">—</span>
+                                <span class="audit-score-label">Accesibilidad</span>
+                            </div>
+                            <div class="audit-score-item" id="score-best-practices">
+                                <span class="audit-score-value">—</span>
+                                <span class="audit-score-label">Buenas Prácticas</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
 

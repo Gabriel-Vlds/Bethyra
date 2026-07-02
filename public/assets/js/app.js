@@ -274,3 +274,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// ── Audit Widget ─────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const btn      = document.getElementById("audit-btn");
+  const input    = document.getElementById("audit-url");
+  const loading  = document.getElementById("audit-loading");
+  const errorBox = document.getElementById("audit-error");
+  const results  = document.getElementById("audit-results");
+
+  if (!btn) return;
+
+  const scoreMap = {
+    performance:     "score-performance",
+    seo:             "score-seo",
+    accessibility:   "score-accessibility",
+    "best-practices": "score-best-practices",
+  };
+
+  const setState = (state) => {
+    loading.classList.add("hidden");
+    errorBox.classList.add("hidden");
+    results.classList.add("hidden");
+    btn.disabled = false;
+    input.disabled = false;
+    if (state === "loading") {
+      loading.classList.remove("hidden");
+      btn.disabled = true;
+      input.disabled = true;
+    } else if (state === "error") {
+      errorBox.classList.remove("hidden");
+    } else if (state === "results") {
+      results.classList.remove("hidden");
+    }
+  };
+
+  const scoreClass = (n) => {
+    if (n >= 90) return "score-good";
+    if (n >= 50) return "score-mid";
+    return "score-bad";
+  };
+
+  const normalizeUrl = (raw) => {
+    const s = raw.trim();
+    if (/^https?:\/\//i.test(s)) return s;
+    return "https://" + s;
+  };
+
+  const isValidUrl = (str) => {
+    try { new URL(str); return true; } catch { return false; }
+  };
+
+  btn.addEventListener("click", async () => {
+    const url = normalizeUrl(input.value);
+
+    if (!isValidUrl(url)) {
+      setState("error");
+      errorBox.textContent = "URL inválida. Ejemplo: https://ejemplo.com";
+      return;
+    }
+
+    setState("loading");
+
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 20000);
+
+    try {
+      const res = await fetch("analyze.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        setState("error");
+        errorBox.textContent = data.error || "Error al analizar la URL.";
+        return;
+      }
+
+      Object.entries(scoreMap).forEach(([cat, elemId]) => {
+        const el    = document.getElementById(elemId);
+        const valueEl = el.querySelector(".audit-score-value");
+        const score = data.scores[cat];
+        valueEl.textContent = score !== null ? score : "—";
+        valueEl.className   = "audit-score-value" + (score !== null ? " " + scoreClass(score) : "");
+      });
+
+      setState("results");
+
+    } catch (err) {
+      clearTimeout(timeoutId);
+      setState("error");
+      errorBox.textContent = err.name === "AbortError"
+        ? "Tiempo de espera agotado (20s). Intenta con otra URL."
+        : "Error de conexión. Verifica tu red e intenta de nuevo.";
+    }
+  });
+});
