@@ -20,12 +20,12 @@
 }
 
 :root {
-    --bg: #050816;
+    --bg: #020611;
     --panel: rgba(9, 17, 33, 0.8);
     --panel-strong: rgba(12, 22, 40, 0.95);
     --line: rgba(0, 255, 247, 0.16);
-    --neon-cyan: #00fff7;
-    --neon-magenta: #ff00d0;
+    --neon-cyan: #4bbcff;
+    --neon-magenta: #ff9a2f;
     --hud-edge: rgba(202, 214, 231, 0.62);
     --hud-surface: rgba(168, 186, 207, 0.08);
     --hud-text: #edf3f9;
@@ -47,9 +47,8 @@ body {
     isolation: isolate;
     margin: 0;
     background:
-        radial-gradient(circle at top, rgba(0, 255, 247, 0.018), transparent 22%),
-        radial-gradient(circle at 70% 20%, rgba(0, 85, 255, 0.045), transparent 16%),
-        linear-gradient(180deg, #010102 0%, #010307 32%, #03060c 68%, #04070f 100%);
+        radial-gradient(circle at 50% 18%, rgba(64, 140, 255, 0.22), transparent 24%),
+        linear-gradient(180deg, #061126 0%, #050d1c 48%, #020611 100%);
     color: var(--text);
     font-family: "Google-Sans-Flex", "Exo-2", system-ui, sans-serif;
     overflow-x: hidden;
@@ -62,14 +61,14 @@ body::before {
     z-index: -1;
     pointer-events: none;
     background-image:
-        linear-gradient(rgba(0, 255, 247, 0.11) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 247, 0.11) 1px, transparent 1px),
-        linear-gradient(rgba(0, 85, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 85, 255, 0.04) 1px, transparent 1px),
-        radial-gradient(circle at center, rgba(0, 85, 255, 0.05), transparent 46%);
-    background-size: 64px 64px, 64px 64px, 256px 256px, 256px 256px, 100% 100%;
+        linear-gradient(rgba(92, 155, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92, 155, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(rgba(255, 154, 47, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 154, 47, 0.04) 1px, transparent 1px),
+        radial-gradient(circle at center, rgba(52, 112, 255, 0.08), transparent 54%);
+    background-size: 72px 72px, 72px 72px, 288px 288px, 288px 288px, 100% 100%;
     background-position: 0 0, 0 0, center;
-    opacity: 0.42;
+    opacity: 0.46;
     mix-blend-mode: screen;
     animation: grid-drift 22s linear infinite;
 }
@@ -80,16 +79,44 @@ body::after {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(5, 8, 22, 0.14), rgba(5, 8, 22, 0.5));
+    background: linear-gradient(180deg, rgba(3, 5, 12, 0.178), rgba(7, 10, 22, 0.205));
 }
 
 .scene-background {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: 0;
     overflow: hidden;
     pointer-events: none;
     perspective: 1200px;
+}
+
+header,
+main {
+    position: relative;
+    z-index: 5;
+}
+
+.scene-image {
+    position: absolute;
+    inset: 0;
+    background-image: url("../Imagenes/Fondo montaña.jpeg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.4;
+    transform: scale(1.02);
+    filter: grayscale(2) brightness(1.00) contrast(0.70);
+    background-color: transparent;
+    z-index: 0;
+}
+
+.scene-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(3, 10, 24, 0.75), rgba(3, 10, 24, 0.75));
+    opacity: 0.75;
+    z-index: 1;
 }
 
 .scene-layer {
@@ -203,58 +230,71 @@ body::after {
     inset: 0;
     z-index: 3;
     pointer-events: none;
+    overflow: hidden;
+    mix-blend-mode: screen;
+}
+
+.scene-spark-layer::before {
+    content: "";
+    position: absolute;
+    inset: -24vh -10vw -8vh;
+    background-image:
+        linear-gradient(rgba(112, 170, 255, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(112, 170, 255, 0.22) 1px, transparent 1px),
+        linear-gradient(rgba(255, 154, 47, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 154, 47, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 50% 35%, rgba(70, 130, 255, 0.14), transparent 50%);
+    background-size: 72px 72px, 72px 72px, 288px 288px, 288px 288px, 100% 100%;
+    transform: perspective(1300px) rotateX(72deg) translateY(24vh) scale(1.45);
+    transform-origin: center bottom;
+    opacity: 0.26;
+    mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.96) 18%, rgba(0, 0, 0, 0.88) 74%, transparent 100%);
 }
 
 .grid-spark {
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 0;
+    height: 0;
     border-radius: 50%;
-    opacity: 0;
     mix-blend-mode: screen;
     transform-origin: center;
-    filter: drop-shadow(0 0 16px currentColor) drop-shadow(0 0 30px currentColor);
-    background:
-        radial-gradient(circle at 34% 34%, rgba(255,255,255,1) 0 22%, currentColor 32% 62%, rgba(255,255,255,0.18) 76%, transparent 100%);
+    filter: drop-shadow(0 0 12px currentColor) drop-shadow(0 0 26px currentColor);
 }
 
 .grid-spark::before,
 .grid-spark::after {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: inherit;
+    left: 0;
+    top: 0;
 }
 
 .grid-spark::before {
-    width: var(--spark-length, 320px);
-    height: var(--spark-thickness, 4px);
-    left: 50%;
-    top: 50%;
-    transform: translate(-100%, -50%);
+    width: var(--spark-length, 120px);
+    height: var(--spark-thickness, 3px);
     border-radius: 999px;
     opacity: 1;
-    background: linear-gradient(90deg, transparent 0%, currentColor 8%, currentColor 30%, rgba(255,255,255,1) 50%, currentColor 70%, currentColor 92%, transparent 100%);
+    background: currentColor;
+    transform-origin: 0 50%;
 }
 
 .grid-spark::after {
-    width: calc(var(--spark-length, 320px) * 0.62);
-    height: calc(var(--spark-thickness, 4px) * 0.7);
-    left: 50%;
-    top: 50%;
-    transform: translate(-100%, -50%);
+    width: calc(var(--spark-length, 120px) * 0.28);
+    height: calc(var(--spark-thickness, 3px) * 1.5);
     border-radius: 999px;
-    opacity: 0.58;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.92) 48%, transparent 100%);
+    opacity: 0;
+    background: transparent;
+    filter: none;
 }
 
-.grid-spark.cyan {
-    color: #00fff7;
+.grid-spark.cyan,
+.grid-spark.blue {
+    color: #56b9ff;
 }
 
-.grid-spark.yellow {
-    color: #f8ff5a;
+.grid-spark.yellow,
+.grid-spark.orange {
+    color: #ff9a2f;
 }
 
 .grid-spark.horizontal-right {
@@ -281,16 +321,52 @@ body::after {
     transform: rotate(-90deg);
 }
 
-.grid-spark.slow {
-    animation: spark-glide 2.1s linear forwards;
+.grid-bike {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    will-change: transform;
+    mix-blend-mode: screen;
 }
 
-.grid-spark.medium {
-    animation: spark-glide 1.5s linear forwards;
+.grid-bike__trail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--trail-length, 110px);
+    height: var(--trail-thickness, 3px);
+    border-radius: 999px;
+    transform-origin: 0 50%;
+    opacity: 0.92;
+    background: currentColor;
+    filter: none;
 }
 
-.grid-spark.fast {
-    animation: spark-glide 1.05s linear forwards;
+.grid-bike__core {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    background-color: currentColor;
+    -webkit-mask: url("../SVG/android-mask.svg") center / contain no-repeat;
+    mask: url("../SVG/android-mask.svg") center / contain no-repeat;
+    box-shadow: 0 0 12px currentColor, 0 0 26px currentColor;
+    transform: rotate(0deg) scale(0.8);
+    transform-origin: center;
+}
+
+.grid-bike.blue {
+    color: #56b9ff;
+    opacity: 0.95;
+}
+
+.grid-bike.orange {
+    color: #ff9a2f;
+    opacity: 0.92;
 }
 
 @keyframes grid-drift {
@@ -335,20 +411,6 @@ body::after {
     }
     to {
         transform: translate3d(1vw, -1.2vh, 0) scale(1.03);
-    }
-}
-
-@keyframes spark-glide {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0) scaleX(0.18);
-    }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translate3d(var(--spark-dx, 0px), var(--spark-dy, 0px), 0) scaleX(1);
     }
 }
 

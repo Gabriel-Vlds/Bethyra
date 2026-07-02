@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const targetSection = document.getElementById("que-podemos-hacer-por-ti-section");
   const contentSections = Array.from(document.querySelectorAll("main .story-section, main .widgets-shell"));
   const sparkLayer = document.querySelector(".scene-spark-layer");
+  const gridStep = 72;
 
   const titleText = "Bethyra — Desarrollo Web y Agentes IA";
   const heroCopy = "Construimos experiencias web con estética futurista, automatización real y agentes autónomos que trabajan sobre tus procesos.";
@@ -164,100 +165,168 @@ document.addEventListener("DOMContentLoaded", () => {
     contentSections.forEach((section) => sectionObserver.observe(section));
   };
 
-  const spawnSpark = () => {
-    if (!sparkLayer) {
-      return;
-    }
-
-    const spark = document.createElement("span");
-    const paletteClass = Math.random() > 0.55 ? "yellow" : "cyan";
-    const directionClasses = ["horizontal-right", "horizontal-left", "diag-right", "diag-left", "vertical-down", "vertical-up"];
-    const speedClasses = ["slow", "medium", "fast"];
-    const directionClass = directionClasses[Math.floor(Math.random() * directionClasses.length)];
-    const speedClass = speedClasses[Math.floor(Math.random() * speedClasses.length)];
-    const gridStep = 72;
-    const gridX = Math.round((Math.random() * window.innerWidth) / gridStep) * gridStep;
-    const gridY = Math.round((Math.random() * window.innerHeight) / gridStep) * gridStep;
-    const spanX = window.innerWidth + 420;
-    const spanY = window.innerHeight + 420;
-    const streakLength = directionClass === "vertical"
-      ? `${240 + Math.floor(Math.random() * 220)}px`
-      : `${320 + Math.floor(Math.random() * 260)}px`;
-    const streakThickness = directionClass === "vertical"
-      ? `${3 + Math.floor(Math.random() * 2)}px`
-      : `${3 + Math.floor(Math.random() * 2)}px`;
-    let startX = gridX;
-    let startY = gridY;
-    let travelX = 0;
-    let travelY = 0;
-
-    if (directionClass === "horizontal-right") {
-      startX = -220;
-      startY = gridY;
-      travelX = spanX;
-      travelY = (Math.random() - 0.5) * 24;
-    } else if (directionClass === "horizontal-left") {
-      startX = window.innerWidth + 220;
-      startY = gridY;
-      travelX = -spanX;
-      travelY = (Math.random() - 0.5) * 24;
-    } else if (directionClass === "diag-right") {
-      startX = -220;
-      startY = Math.max(120, gridY - Math.floor(window.innerHeight * 0.25));
-      travelX = spanX;
-      travelY = window.innerHeight * 0.45 + (Math.random() * 120);
-    } else if (directionClass === "diag-left") {
-      startX = window.innerWidth + 220;
-      startY = Math.max(120, gridY - Math.floor(window.innerHeight * 0.25));
-      travelX = -spanX;
-      travelY = window.innerHeight * 0.45 + (Math.random() * 120);
-    } else if (directionClass === "vertical-down") {
-      startX = gridX;
-      startY = -220;
-      travelX = (Math.random() - 0.5) * 30;
-      travelY = spanY;
-    } else if (directionClass === "vertical-up") {
-      startX = gridX;
-      startY = window.innerHeight + 220;
-      travelX = (Math.random() - 0.5) * 30;
-      travelY = -spanY;
-    }
-
-    spark.className = `grid-spark ${paletteClass} ${directionClass} ${speedClass}`;
-    spark.style.left = `${startX}px`;
-    spark.style.top = `${startY}px`;
-    spark.style.setProperty("--spark-dx", `${travelX}px`);
-    spark.style.setProperty("--spark-dy", `${travelY}px`);
-    spark.style.setProperty("--spark-length", streakLength);
-    spark.style.setProperty("--spark-thickness", streakThickness);
-
-    sparkLayer.appendChild(spark);
-
-    window.setTimeout(() => {
-      spark.remove();
-    }, 2000);
+  const directionVectors = {
+    right: { dx: 1, dy: 0, trailAngle: 180, coreAngle: 90 },
+    left: { dx: -1, dy: 0, trailAngle: 0, coreAngle: -90 },
+    up: { dx: 0, dy: -1, trailAngle: 90, coreAngle: 0 },
+    down: { dx: 0, dy: 1, trailAngle: 270, coreAngle: 180 }
   };
 
-  const runSparkCycle = () => {
+  const oppositeDirections = {
+    right: "left",
+    left: "right",
+    up: "down",
+    down: "up"
+  };
+
+  const turnCandidates = {
+    right: ["right", "up", "down"],
+    left: ["left", "up", "down"],
+    up: ["up", "left", "right"],
+    down: ["down", "left", "right"]
+  };
+
+  const clampToGrid = (value) => Math.round(value / gridStep) * gridStep;
+
+  const createLightBike = (className, startXRatio, startYRatio, direction, speed, trailLength) => {
+    const bike = document.createElement("div");
+    bike.className = `grid-bike ${className}`;
+
+    const trail = document.createElement("span");
+    trail.className = "grid-bike__trail";
+
+    const core = document.createElement("span");
+    core.className = "grid-bike__core";
+
+    bike.append(trail, core);
+    sparkLayer.appendChild(bike);
+
+    const startX = clampToGrid(window.innerWidth * startXRatio);
+    const startY = clampToGrid(window.innerHeight * startYRatio);
+
+    bike.style.setProperty("--trail-length", `${trailLength}px`);
+    bike.style.setProperty("--trail-thickness", "3px");
+    bike.style.transform = `translate3d(${startX}px, ${startY}px, 0)`;
+    core.style.transform = `rotate(${directionVectors[direction].coreAngle}deg) scale(0.8)`;
+
+    return {
+      element: bike,
+      trail,
+      core,
+      x: startX,
+      y: startY,
+      fromX: startX,
+      fromY: startY,
+      toX: startX,
+      toY: startY,
+      direction,
+      speed,
+      trailLength,
+      trailAngle: directionVectors[direction].trailAngle,
+      progress: 1,
+      segmentDuration: gridStep / speed
+    };
+  };
+
+  const canMove = (x, y, direction) => {
+    const vector = directionVectors[direction];
+    const nextX = x + vector.dx * gridStep;
+    const nextY = y + vector.dy * gridStep;
+    const margin = gridStep;
+
+    return nextX >= -margin && nextX <= window.innerWidth + margin && nextY >= -margin && nextY <= window.innerHeight + margin;
+  };
+
+  const chooseNextDirection = (bike) => {
+    const options = turnCandidates[bike.direction].filter((direction) => canMove(bike.x, bike.y, direction));
+
+    if (!options.length) {
+      return oppositeDirections[bike.direction];
+    }
+
+    const weightedOptions = [];
+    options.forEach((direction) => {
+      const weight = direction === bike.direction ? 4 : 1;
+      for (let index = 0; index < weight; index += 1) {
+        weightedOptions.push(direction);
+      }
+    });
+
+    return weightedOptions[Math.floor(Math.random() * weightedOptions.length)];
+  };
+
+  const advanceBike = (bike) => {
+    bike.fromX = bike.x;
+    bike.fromY = bike.y;
+    bike.direction = chooseNextDirection(bike);
+
+    const vector = directionVectors[bike.direction];
+    bike.toX = bike.x + vector.dx * gridStep;
+    bike.toY = bike.y + vector.dy * gridStep;
+    bike.trailAngle = vector.trailAngle;
+    bike.segmentDuration = Math.max(0.32, (gridStep / bike.speed) * (0.88 + Math.random() * 0.24));
+    bike.progress = 0;
+
+    bike.trail.style.width = `${bike.trailLength}px`;
+    bike.trail.style.height = "3px";
+    bike.trail.style.transform = `translateY(-50%) rotate(${bike.trailAngle}deg)`;
+    bike.core.style.transform = `rotate(${vector.coreAngle}deg) scale(0.8)`;
+  };
+
+  const updateBike = (bike, deltaTime) => {
+    if (bike.progress >= 1) {
+      advanceBike(bike);
+    }
+
+    bike.progress += deltaTime / (bike.segmentDuration * 1000);
+
+    if (bike.progress >= 1) {
+      bike.x = bike.toX;
+      bike.y = bike.toY;
+      bike.element.style.transform = `translate3d(${bike.x}px, ${bike.y}px, 0)`;
+      advanceBike(bike);
+    }
+
+    const currentX = bike.fromX + (bike.toX - bike.fromX) * bike.progress;
+    const currentY = bike.fromY + (bike.toY - bike.fromY) * bike.progress;
+
+    bike.x = currentX;
+    bike.y = currentY;
+    bike.element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+  };
+
+  const runLightBikeCycle = () => {
     if (!sparkLayer) {
       return;
     }
 
-    const burst = () => {
-      const sparksToCreate = 1 + Math.floor(Math.random() * 3);
-      for (let index = 0; index < sparksToCreate; index += 1) {
-        window.setTimeout(spawnSpark, index * 180);
+    const bikes = [
+      createLightBike("blue", 0.22, 0.36, "right", 196.35, 198),
+      createLightBike("orange", 0.74, 0.64, "left", 170.94, 216)
+    ];
+
+    bikes.forEach((bike) => advanceBike(bike));
+
+    let lastTimestamp = null;
+
+    const frame = (timestamp) => {
+      if (lastTimestamp === null) {
+        lastTimestamp = timestamp;
       }
-      const delay = 1000 + Math.floor(Math.random() * 1800);
-      window.setTimeout(burst, delay);
+
+      const deltaTime = Math.min(40, timestamp - lastTimestamp);
+      lastTimestamp = timestamp;
+
+      bikes.forEach((bike) => updateBike(bike, deltaTime));
+      window.requestAnimationFrame(frame);
     };
 
-    window.setTimeout(burst, 600);
+    window.requestAnimationFrame(frame);
   };
 
   runHeroSequence();
   observeContentSections();
-  runSparkCycle();
+  runLightBikeCycle();
 
   if (scrollToServicesButton && targetSection) {
     scrollToServicesButton.addEventListener("click", (event) => {
