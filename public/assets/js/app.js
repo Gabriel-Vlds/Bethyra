@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof Typed !== "undefined" && selector) {
         new Typed(selector, {
           strings: [text],
-          typeSpeed: options.typeSpeed ?? 42,
+          typeSpeed: options.typeSpeed ?? 34,
           showCursor: options.showCursor ?? false,
           backSpeed: 0,
           loop: false,
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         element.textContent += text.charAt(index);
         index += 1;
         if (index < text.length) {
-          window.setTimeout(tick, options.typeSpeed ?? 42);
+          window.setTimeout(tick, options.typeSpeed ?? 34);
         } else {
           resolve();
         }
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  const typeInlineElement = (element, text, speed = 22) => {
+  const typeInlineElement = (element, text, speed = 18) => {
     return new Promise((resolve) => {
       if (!element) {
         resolve();
@@ -109,9 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
       heroActions.classList.add("hidden");
     }
 
-    await typeWithTyped("#hero-titulo", titleText, { typeSpeed: 44, showCursor: false });
+    await typeWithTyped("#hero-titulo", titleText, { typeSpeed: 35, showCursor: false });
     await new Promise((resolve) => window.setTimeout(resolve, 350));
-    await typeWithTyped("#hero-text", heroCopy, { typeSpeed: 18, showCursor: false });
+    await typeWithTyped("#hero-text", heroCopy, { typeSpeed: 14, showCursor: false });
     await new Promise((resolve) => window.setTimeout(resolve, 450));
     revealButton();
   };
@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
         continue;
       }
 
-      const typingSpeed = element.tagName === "H2" ? 28 : 16;
+      const typingSpeed = element.tagName === "H2" ? 22 : 13;
       await typeInlineElement(element, originalText, typingSpeed);
       await new Promise((resolve) => window.setTimeout(resolve, element.tagName === "H2" ? 220 : 120));
     }
@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeoutId  = setTimeout(() => controller.abort(), 20000);
 
     try {
-      const res = await fetch("analyze.php", {
+      const res = await fetch("src/api/analyze.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
@@ -443,4 +443,167 @@ document.addEventListener("DOMContentLoaded", () => {
         : "Error de conexión. Verifica tu red e intenta de nuevo.";
     }
   });
+});
+
+// ── Contact Multi-step Form ───────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contact-multi-step-form");
+  if (!form) return;
+
+  const checkboxWhatsApp = document.getElementById("contact-channel-whatsapp");
+  const checkboxEmail = document.getElementById("contact-channel-email");
+  const nextBtn = document.getElementById("contact-step-next");
+  const errorBox = document.getElementById("contact-step-error");
+  const successBox = document.getElementById("contact-form-success");
+
+  const stepChannel = document.getElementById("contact-step-channel");
+  const stepWhatsApp = document.getElementById("contact-step-whatsapp");
+  const stepEmail = document.getElementById("contact-step-email");
+
+  const backWhatsApp = document.getElementById("contact-back-whatsapp");
+  const backEmail = document.getElementById("contact-back-email");
+
+  const fieldsWhatsApp = {
+    name: document.getElementById("contact-name-whatsapp"),
+    contact: document.getElementById("contact-whatsapp"),
+    needs: document.getElementById("contact-needs-whatsapp")
+  };
+
+  const fieldsEmail = {
+    name: document.getElementById("contact-name-email"),
+    contact: document.getElementById("contact-email"),
+    needs: document.getElementById("contact-needs-email")
+  };
+
+  const setRequired = (fields, state) => {
+    Object.values(fields).forEach((field) => {
+      if (!field) return;
+      field.required = state;
+      field.disabled = !state;
+    });
+  };
+
+  const goToChannelStep = (hideSuccess = true) => {
+    stepChannel.classList.remove("hidden");
+    stepWhatsApp.classList.add("hidden");
+    stepEmail.classList.add("hidden");
+    errorBox.classList.add("hidden");
+    if (hideSuccess) {
+      successBox.classList.add("hidden");
+    }
+    setRequired(fieldsWhatsApp, false);
+    setRequired(fieldsEmail, false);
+  };
+
+  const goToWhatsAppStep = () => {
+    stepChannel.classList.add("hidden");
+    stepWhatsApp.classList.remove("hidden");
+    stepEmail.classList.add("hidden");
+    errorBox.classList.add("hidden");
+    successBox.classList.add("hidden");
+    setRequired(fieldsWhatsApp, true);
+    setRequired(fieldsEmail, false);
+  };
+
+  const goToEmailStep = () => {
+    stepChannel.classList.add("hidden");
+    stepWhatsApp.classList.add("hidden");
+    stepEmail.classList.remove("hidden");
+    errorBox.classList.add("hidden");
+    successBox.classList.add("hidden");
+    setRequired(fieldsWhatsApp, false);
+    setRequired(fieldsEmail, true);
+  };
+
+  checkboxWhatsApp?.addEventListener("change", () => {
+    if (checkboxWhatsApp.checked) {
+      checkboxEmail.checked = false;
+    }
+  });
+
+  checkboxEmail?.addEventListener("change", () => {
+    if (checkboxEmail.checked) {
+      checkboxWhatsApp.checked = false;
+    }
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    const wantsWhatsApp = checkboxWhatsApp?.checked;
+    const wantsEmail = checkboxEmail?.checked;
+
+    if (!wantsWhatsApp && !wantsEmail) {
+      errorBox.textContent = "Selecciona WhatsApp o Correo electrónico para continuar.";
+      errorBox.classList.remove("hidden");
+      return;
+    }
+
+    if (wantsWhatsApp) {
+      goToWhatsAppStep();
+      return;
+    }
+
+    goToEmailStep();
+  });
+
+  backWhatsApp?.addEventListener("click", goToChannelStep);
+  backEmail?.addEventListener("click", goToChannelStep);
+
+  const setSubmitting = (state) => {
+    const submitButtons = form.querySelectorAll('button[type="submit"]');
+    submitButtons.forEach((button) => {
+      button.disabled = state;
+    });
+  };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const isWhatsApp = !stepWhatsApp.classList.contains("hidden");
+    const activeFields = isWhatsApp ? fieldsWhatsApp : fieldsEmail;
+
+    const payload = {
+      channel: isWhatsApp ? "whatsapp" : "email",
+      name: activeFields.name.value.trim(),
+      contact: activeFields.contact.value.trim(),
+      needs: activeFields.needs.value.trim()
+    };
+
+    setSubmitting(true);
+    errorBox.classList.add("hidden");
+    successBox.classList.add("hidden");
+
+    try {
+      const response = await fetch("src/api/contact.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        errorBox.textContent = data.error || "No fue posible enviar tu solicitud. Intenta de nuevo.";
+        errorBox.classList.remove("hidden");
+        return;
+      }
+
+      const label = payload.channel === "whatsapp" ? "WhatsApp" : "correo electrónico";
+      successBox.textContent = `Gracias. Recibimos tu solicitud y te contactaremos por ${label}.`;
+      successBox.classList.remove("hidden");
+
+      form.reset();
+      goToChannelStep(false);
+    } catch (error) {
+      errorBox.textContent = "Error de conexión. Intenta nuevamente en unos minutos.";
+      errorBox.classList.remove("hidden");
+    } finally {
+      setSubmitting(false);
+    }
+  });
+
+  goToChannelStep();
 });

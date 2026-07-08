@@ -19,8 +19,8 @@
         <nav class="menu_principal">
             <ul>
                 <li class="menu_item"><a href="">Inicio</a></li>
-                <li class= "menu_item"><a href="">Servicios</a></li>
-                <li class= "menu_item"><a href="">Contacto</a></li>
+                <li class= "menu_item"><a href="demos.php">Demos</a></li>
+                <li class= "menu_item"><a href="#contacto-section">Contacto</a></li>
             </ul>
         </nav>
 
@@ -104,6 +104,84 @@
                 <span class="story-label">04 · Desarrollo Full Stack</span>
                 <h2>Para quien necesita una herramienta en serio y a la medida.</h2>
                 <p>El crecimiento es inevitable, las ordenes se acumulan, hay nuevas necesidades y retos...Ahi es cuando una herramienta como esta sobresale.</p>
+            </div>
+        </section>
+
+        <section id="contacto-section" class="story-section section-left stage-full" data-aos="fade-up">
+            <div class="story-copy">
+                <span class="story-label">05 · Contacto</span>
+                <h2>Hablemos de tu proyecto</h2>
+                <p>Cuéntanos qué quieres construir y en qué etapa estás. Te ayudamos a definir la mejor solución para lanzar más rápido y con una base sólida.</p>
+            </div>
+            <div class="story-widget-slot">
+                <div class="slot-card">
+                    <span class="slot-title">Canal de contacto directo</span>
+                    <form id="contact-multi-step-form" class="contact-form-steps" novalidate>
+                        <div id="contact-step-channel" class="contact-step">
+                            <h3 class="contact-step-title">¿Prefieres ser contactado por whatsapp o correo electrónico?</h3>
+                            <div class="contact-channel-options">
+                                <label class="contact-option" for="contact-channel-whatsapp">
+                                    <input type="checkbox" id="contact-channel-whatsapp" name="contact-channel" value="whatsapp" />
+                                    <span>WhatsApp</span>
+                                </label>
+                                <label class="contact-option" for="contact-channel-email">
+                                    <input type="checkbox" id="contact-channel-email" name="contact-channel" value="email" />
+                                    <span>Correo electrónico</span>
+                                </label>
+                            </div>
+                            <div class="contact-actions">
+                                <button type="button" class="btn btn-primary" id="contact-step-next">Continuar</button>
+                            </div>
+                        </div>
+
+                        <div id="contact-step-whatsapp" class="contact-step hidden">
+                            <h3 class="contact-step-title">Formulario de contacto por WhatsApp</h3>
+                            <div class="contact-fields">
+                                <label class="contact-field" for="contact-name-whatsapp">
+                                    <span>Nombre</span>
+                                    <input type="text" id="contact-name-whatsapp" name="name-whatsapp" autocomplete="name" />
+                                </label>
+                                <label class="contact-field" for="contact-whatsapp">
+                                    <span>WhatsApp</span>
+                                    <input type="tel" id="contact-whatsapp" name="whatsapp" inputmode="tel" placeholder="+52 55 1234 5678" pattern="^\\+?[0-9\\s()-]{8,20}$" />
+                                </label>
+                                <label class="contact-field" for="contact-needs-whatsapp">
+                                    <span>Descríbenos lo que necesitas</span>
+                                    <textarea id="contact-needs-whatsapp" name="needs-whatsapp" rows="4"></textarea>
+                                </label>
+                            </div>
+                            <div class="contact-actions">
+                                <button type="button" class="btn" id="contact-back-whatsapp">Volver</button>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </div>
+
+                        <div id="contact-step-email" class="contact-step hidden">
+                            <h3 class="contact-step-title">Formulario de contacto por Correo</h3>
+                            <div class="contact-fields">
+                                <label class="contact-field" for="contact-name-email">
+                                    <span>Nombre</span>
+                                    <input type="text" id="contact-name-email" name="name-email" autocomplete="name" />
+                                </label>
+                                <label class="contact-field" for="contact-email">
+                                    <span>Correo electrónico</span>
+                                    <input type="email" id="contact-email" name="email" autocomplete="email" placeholder="nombre@ejemplo.com" />
+                                </label>
+                                <label class="contact-field" for="contact-needs-email">
+                                    <span>Descríbenos lo que necesitas</span>
+                                    <textarea id="contact-needs-email" name="needs-email" rows="4"></textarea>
+                                </label>
+                            </div>
+                            <div class="contact-actions">
+                                <button type="button" class="btn" id="contact-back-email">Volver</button>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </div>
+
+                        <div id="contact-step-error" class="contact-step-error hidden" role="alert"></div>
+                    </form>
+                    <div id="contact-form-success" class="contact-step-success hidden" role="status" aria-live="polite"></div>
+                </div>
             </div>
         </section>
     </main>
