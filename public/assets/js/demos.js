@@ -1,152 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  initStripeDemo();
   initChartDemo();
   initChatbotDemo();
 });
-
-function initStripeDemo() {
-  const form = document.getElementById("stripe-demo-form");
-  const status = document.getElementById("stripe-status");
-  const responseBox = document.getElementById("stripe-response");
-  const cardTarget = document.getElementById("stripe-card-element");
-
-  if (!form || !status || !responseBox || !cardTarget) return;
-
-  const key = (window.DEMO_CONFIG && window.DEMO_CONFIG.stripePublishableKey) || "";
-  const hasStripe = typeof window.Stripe !== "undefined";
-
-  if (!hasStripe) {
-    setStripeState(status, responseBox, "No se pudo cargar Stripe.js.", true);
-    disableForm(form);
-    return;
-  }
-
-  if (!key) {
-    setStripeState(
-      status,
-      responseBox,
-      "Configura STRIPE_PUBLISHABLE_KEY en .env para activar esta demo.",
-      true
-    );
-    disableForm(form);
-    return;
-  }
-
-  const stripe = window.Stripe(key);
-  const elements = stripe.elements();
-  const card = elements.create("card", {
-    style: {
-      base: {
-        color: "#e7f4ff",
-        fontFamily: "Anonymous Pro, monospace",
-        fontSize: "15px",
-        "::placeholder": {
-          color: "#8ba4b5"
-        }
-      },
-      invalid: {
-        color: "#ff6b6b"
-      }
-    }
-  });
-
-  card.mount("#stripe-card-element");
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    if (!form.reportValidity()) {
-      return;
-    }
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn) submitBtn.disabled = true;
-
-    setStripeState(status, responseBox, "Creando intent de pago...", false, true);
-
-    const name = document.getElementById("stripe-name").value.trim();
-    const email = document.getElementById("stripe-email").value.trim();
-    const amount = Number(document.getElementById("stripe-amount").value || 0);
-
-    try {
-      const intentResponse = await fetch("src/api/stripe_create_payment_intent.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          amount,
-          currency: "mxn",
-          name,
-          email
-        })
-      });
-
-      const intentData = await intentResponse.json();
-
-      if (!intentResponse.ok || !intentData.ok || !intentData.clientSecret) {
-        setStripeState(status, responseBox, intentData.error || "No se pudo crear el intent de pago.", true);
-        return;
-      }
-
-      setStripeState(status, responseBox, "Confirmando pago con tarjeta de prueba...", false, true);
-
-      const confirmResult = await stripe.confirmCardPayment(intentData.clientSecret, {
-        payment_method: {
-          card,
-          billing_details: {
-            name,
-            email
-          }
-        }
-      });
-
-      if (confirmResult.error) {
-        setStripeState(status, responseBox, confirmResult.error.message || "Stripe devolvio un error al confirmar el pago.", true);
-        return;
-      }
-
-      const paymentIntent = confirmResult.paymentIntent;
-      const payload = {
-        demo: "stripe_test_payment",
-        payment_intent_id: paymentIntent ? paymentIntent.id : intentData.paymentIntentId,
-        amount_mxn: amount,
-        status: paymentIntent ? paymentIntent.status : "unknown",
-        created_at: new Date().toISOString()
-      };
-
-      setStripeState(status, responseBox, "Pago de prueba confirmado correctamente.", false);
-      responseBox.textContent = JSON.stringify(payload, null, 2);
-      responseBox.classList.remove("hidden");
-    } catch (error) {
-      setStripeState(status, responseBox, "No se pudo completar el pago de prueba.", true);
-    } finally {
-      if (submitBtn) submitBtn.disabled = false;
-    }
-  });
-}
-
-function setStripeState(statusEl, codeEl, message, isError, isLoading = false) {
-  statusEl.textContent = message;
-  statusEl.classList.remove("error", "success");
-
-  if (isLoading) {
-    codeEl.classList.add("hidden");
-    return;
-  }
-
-  statusEl.classList.add(isError ? "error" : "success");
-  if (isError) {
-    codeEl.classList.add("hidden");
-  }
-}
-
-function disableForm(form) {
-  const controls = form.querySelectorAll("input, button");
-  controls.forEach((control) => {
-    control.disabled = true;
-  });
-}
 
 function initChartDemo() {
   const form = document.getElementById("chart-data-form");
@@ -160,23 +15,31 @@ function initChartDemo() {
   if (typeof window.am5 === "undefined" || typeof window.am5xy === "undefined") return;
 
   const chartState = [
-    { category: "Demo A", value: 90 },
-    { category: "Demo B", value: 125 },
-    { category: "Demo C", value: 70 }
+    { category: "Semana 1", value: 100 },
+    { category: "Semana 2", value: 125 },
+    { category: "Semana 3", value: 200 },
+    { category: "Semana 1 - Dia 1", value: 20 },
+    { category: "Semana 1 - Dia 2", value: 22 },
+    { category: "Semana 1 - Dia 3", value: 30 },
+    { category: "Semana 1 - Dia 4", value: 10 },
+    { category: "Semana 1 - Dia 5", value: 8 },
+    { category: "Semana 1 - Dia 6", value: 10 }
   ];
 
   const root = am5.Root.new("chart-surface");
   root.setThemes([am5themes_Animated.new(root)]);
+  root.interfaceColors.set("text", am5.color(0x000000));
 
   const chart = root.container.children.push(
     am5xy.XYChart.new(root, {
-      panX: false,
+      panX: true,
       panY: false,
-      wheelX: "none",
-      wheelY: "none",
+      wheelX: "panX",
+      wheelY: "zoomX",
       layout: root.verticalLayout
     })
   );
+  chart.set("scrollbarX", am5.Scrollbar.new(root, { orientation: "horizontal" }));
 
   const xAxis = chart.xAxes.push(
     am5xy.CategoryAxis.new(root, {
@@ -186,12 +49,18 @@ function initChartDemo() {
       })
     })
   );
+  xAxis.get("renderer").labels.template.setAll({
+    fill: am5.color(0x000000)
+  });
 
   const yAxis = chart.yAxes.push(
     am5xy.ValueAxis.new(root, {
       renderer: am5xy.AxisRendererY.new(root, {})
     })
   );
+  yAxis.get("renderer").labels.template.setAll({
+    fill: am5.color(0x000000)
+  });
 
   const series = chart.series.push(
     am5xy.ColumnSeries.new(root, {
@@ -205,6 +74,9 @@ function initChartDemo() {
       })
     })
   );
+  series.get("tooltip").label.setAll({
+    fill: am5.color(0x000000)
+  });
 
   series.columns.template.setAll({
     cornerRadiusTL: 8,
@@ -212,6 +84,24 @@ function initChartDemo() {
     fillOpacity: 0.9,
     strokeOpacity: 0
   });
+
+  const normalizeCategory = (rawCategory) => {
+    const trimmed = rawCategory.trim();
+    if (trimmed === "") {
+      return "";
+    }
+
+    const dayMatch = trimmed.match(/^dia\s*(\d+)$/i);
+    if (dayMatch) {
+      return `Semana 1 - Dia ${dayMatch[1]}`;
+    }
+
+    if (/^semana\s*1\s*[-:]\s*dia\s*\d+$/i.test(trimmed)) {
+      return trimmed.replace(/^semana\s*1\s*[-:]\s*dia\s*/i, "Semana 1 - Dia ");
+    }
+
+    return trimmed;
+  };
 
   function draw() {
     xAxis.data.setAll(chartState);
@@ -232,7 +122,7 @@ function initChartDemo() {
 
     if (!form.reportValidity()) return;
 
-    const category = labelInput.value.trim();
+    const category = normalizeCategory(labelInput.value);
     const value = Number(valueInput.value);
 
     if (!category || Number.isNaN(value)) {
@@ -287,8 +177,8 @@ function initChatbotDemo() {
       return "Depende del proyecto, pero una primera version suele estar lista entre 2 y 6 semanas.";
     }
 
-    if (text.includes("stripe") || text.includes("pago")) {
-      return "Integramos Stripe con flujos seguros para pagos con tarjeta y reportes de transacciones.";
+    if (text.includes("pago") || text.includes("pasarela")) {
+      return "Podemos integrar pasarelas de pago seguras segun tu flujo de negocio y tus requisitos de operacion.";
     }
 
     return "Entendido. Si quieres, te conecto con el formulario de contacto para darte una propuesta exacta.";

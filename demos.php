@@ -1,25 +1,5 @@
 <?php
 declare(strict_types=1);
-
-$envPath = __DIR__ . '/.env';
-$envVars = [];
-
-if (is_file($envPath)) {
-	$lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-	if ($lines !== false) {
-		foreach ($lines as $line) {
-			$trimmed = trim($line);
-			if ($trimmed === '' || str_starts_with($trimmed, '#') || !str_contains($trimmed, '=')) {
-				continue;
-			}
-
-			[$key, $value] = explode('=', $trimmed, 2);
-			$envVars[trim($key)] = trim($value);
-		}
-	}
-}
-
-$stripePublishableKey = $envVars['STRIPE_PUBLISHABLE_KEY'] ?? '';
 ?>
 <!doctype html>
 <html lang="es">
@@ -51,69 +31,43 @@ $stripePublishableKey = $envVars['STRIPE_PUBLISHABLE_KEY'] ?? '';
 		<div class="demo-hero">
 			<p class="demo-kicker">Bethyra Lab</p>
 			<h1>Demos Funcionales</h1>
-			<p>Pruebas en vivo para mostrar integraciones reales: Stripe, graficas interactivas con amCharts y un chatbot de asistencia.</p>
+			<p>Pruebas en vivo para mostrar integraciones reales: graficas interactivas con amCharts y un chatbot de asistencia.</p>
 		</div>
 
-		<section class="demo-grid">
-			<article class="demo-card" id="stripe-demo">
-				<h2>Pasarela de pago con Stripe</h2>
-				<p>Demo de pago en modo prueba: crea un Payment Intent y confirma el cobro con tarjeta de testing.</p>
-
-				<form id="stripe-demo-form" class="demo-form" novalidate>
-					<label>
-						<span>Nombre del cliente</span>
-						<input type="text" id="stripe-name" placeholder="Ana Rivera" required />
-					</label>
-
-					<label>
-						<span>Correo del cliente</span>
-						<input type="email" id="stripe-email" placeholder="ana@correo.com" required />
-					</label>
-
-					<label>
-						<span>Monto de referencia (MXN)</span>
-						<input type="number" id="stripe-amount" min="1" step="1" value="499" required />
-					</label>
-
-					<div class="stripe-card-element-wrap">
-						<span>Tarjeta de prueba</span>
-						<div id="stripe-card-element"></div>
-						<small>Usa 4242 4242 4242 4242, fecha futura y CVC cualquiera.</small>
-					</div>
-
-					<button type="submit" class="demo-btn">Pagar en modo prueba</button>
-				</form>
-
-				<div id="stripe-status" class="demo-status" aria-live="polite"></div>
-				<pre id="stripe-response" class="demo-code hidden"></pre>
-			</article>
-
-			<article class="demo-card" id="chart-demo">
+		<section class="demo-sections">
+			<article class="demo-section" id="chart-demo">
 				<h2>Grafica funcional con amCharts</h2>
 				<p>Agrega tus propios datos para ver la grafica actualizarse en tiempo real.</p>
 
-				<form id="chart-data-form" class="demo-form" novalidate>
-					<label>
-						<span>Categoria</span>
-						<input type="text" id="chart-label" placeholder="Semana 1" required />
-					</label>
+				<div class="chart-layout">
+					<div class="chart-controls">
+						<form id="chart-data-form" class="demo-form" novalidate>
+							<label>
+								<span>Categoria</span>
+								<input type="text" id="chart-label" placeholder="Semana 1" required />
+							</label>
 
-					<label>
-						<span>Valor</span>
-						<input type="number" id="chart-value" placeholder="120" step="1" required />
-					</label>
+							<label>
+								<span>Valor</span>
+								<input type="number" id="chart-value" placeholder="120" step="1" required />
+							</label>
 
-					<div class="chart-actions">
-						<button type="submit" class="demo-btn">Agregar dato</button>
-						<button type="button" id="chart-clear" class="demo-btn ghost">Limpiar datos</button>
+							<div class="chart-actions">
+								<button type="submit" class="demo-btn">Agregar dato</button>
+								<button type="button" id="chart-clear" class="demo-btn ghost">Limpiar datos</button>
+							</div>
+						</form>
+
+						<ul id="chart-data-list" class="chart-data-list"></ul>
 					</div>
-				</form>
 
-				<div id="chart-surface"></div>
-				<ul id="chart-data-list" class="chart-data-list"></ul>
+					<div class="chart-visual">
+						<div id="chart-surface"></div>
+					</div>
+				</div>
 			</article>
 
-			<article class="demo-card" id="chatbot-demo">
+			<article class="demo-section" id="chatbot-demo">
 				<h2>Chatbot de demostracion</h2>
 				<p>Asistente basico para resolver preguntas de servicios, precios y tiempos.</p>
 
@@ -133,13 +87,7 @@ $stripePublishableKey = $envVars['STRIPE_PUBLISHABLE_KEY'] ?? '';
 		</section>
 	</main>
 
-	<script>
-		window.DEMO_CONFIG = {
-			stripePublishableKey: <?= json_encode($stripePublishableKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
-		};
-	</script>
 	<script src="public/assets/js/app.js"></script>
-	<script src="https://js.stripe.com/v3/"></script>
 	<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 	<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 	<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
