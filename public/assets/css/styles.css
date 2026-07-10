@@ -930,4 +930,110 @@ h1, h2 {
     text-align: center;
 }
 
+/* ── Contact Multi-step Form ─────────────────────────────── */
+.contact-form-steps {
+    margin-top: 0.75rem;
+    display: grid;
+    gap: 0.9rem;
+}
+
+.contact-step {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.contact-step-title {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.contact-channel-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.contact-option {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(202, 214, 231, 0.28);
+    background: rgba(7, 11, 18, 0.65);
+    cursor: pointer;
+}
+
+.contact-option input {
+    min-height: auto;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.contact-option span {
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.contact-fields {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.contact-field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.contact-field span {
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.contact-field textarea {
+    min-height: 110px;
+    padding: 0.55rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(202, 214, 231, 0.28);
+    background: rgba(7, 11, 18, 0.88);
+    color: var(--hud-text);
+    resize: vertical;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.contact-actions {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.contact-step-error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 107, 107, 0.28);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255, 107, 107, 0.06);
+}
+
+.contact-step-success {
+    color: #4ade80;
+    font-size: 0.86rem;
+    border: 1px solid rgba(74, 222, 128, 0.28);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    background: rgba(74, 222, 128, 0.08);
+}
+
+@media (max-width: 640px) {
+    .contact-channel-options {
+        grid-template-columns: 1fr;
+    }
+}
+
 .hidden { display: none !important; }
