@@ -87,7 +87,7 @@ if ($message === '') {
 
 $messages = [[
     'role' => 'system',
-    'content' => 'Eres un asistente comercial de Bethyra. Responde en espanol, directo y claro. Explica servicios de desarrollo web, WordPress, agentes autonomos, Stripe y procesos. No inventes precios exactos. Si falta contexto, sugiere usar formulario de contacto.'
+    'content' => 'Eres un asistente comercial de Bethyra. Responde en espanol, directo y claro. Explica servicios de desarrollo web, WordPress, agentes autonomos y procesos. No inventes precios exactos. Si falta contexto, sugiere usar formulario de contacto.'
 ]];
 
 if (is_array($history)) {
