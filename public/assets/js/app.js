@@ -326,7 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   runHeroSequence();
   observeContentSections();
-  runLightBikeCycle();
 
   if (scrollToServicesButton && targetSection) {
     scrollToServicesButton.addEventListener("click", (event) => {
